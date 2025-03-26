@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,40 +12,19 @@ import { ArrowLeft, LogIn } from "lucide-react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
+    
     try {
-      // Simulate authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo, just check if fields are not empty
-      if (email && password) {
-        toast({
-          title: "Logged in successfully",
-          description: "Welcome back to FoodWise!"
-        });
-        navigate("/dashboard");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: "Please fill in all fields"
-        });
-      }
+      await signIn(email, password);
+      navigate("/dashboard");
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: "Something went wrong. Please try again."
-      });
-    } finally {
-      setIsLoading(false);
+      // Error is already handled in the Auth context
+      console.error(error);
     }
   };
 
@@ -112,10 +92,10 @@ const Login = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <Button variant="outline" type="button" disabled={isLoading}>
+            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social login will be available soon!" })}>
               Google
             </Button>
-            <Button variant="outline" type="button" disabled={isLoading}>
+            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social login will be available soon!" })}>
               Facebook
             </Button>
           </div>

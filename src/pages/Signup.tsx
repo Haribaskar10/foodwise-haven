@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,51 +14,29 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { signUp, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      // Validate passwords match
-      if (password !== confirmPassword) {
-        toast({
-          variant: "destructive",
-          title: "Passwords don't match",
-          description: "Please make sure your passwords match."
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // Simulate authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo, just check if fields are not empty
-      if (name && email && password) {
-        toast({
-          title: "Account created successfully",
-          description: "Welcome to FoodWise!"
-        });
-        navigate("/dashboard");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Signup failed",
-          description: "Please fill in all fields"
-        });
-      }
-    } catch (error) {
+    // Validate passwords match
+    if (password !== confirmPassword) {
       toast({
         variant: "destructive",
-        title: "Signup failed",
-        description: "Something went wrong. Please try again."
+        title: "Passwords don't match",
+        description: "Please make sure your passwords match."
       });
-    } finally {
-      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await signUp(email, password, name);
+      navigate("/dashboard");
+    } catch (error) {
+      // Error is already handled in the Auth context
+      console.error(error);
     }
   };
 
@@ -140,10 +119,10 @@ const Signup = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <Button variant="outline" type="button" disabled={isLoading}>
+            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social signup will be available soon!" })}>
               Google
             </Button>
-            <Button variant="outline" type="button" disabled={isLoading}>
+            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social signup will be available soon!" })}>
               Facebook
             </Button>
           </div>

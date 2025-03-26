@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -13,6 +14,7 @@ const features = [
         <path d="M16 10a4 4 0 0 1-8 0"></path>
       </svg>
     ),
+    path: "/pantry-management"
   },
   {
     title: "AI Recipe Suggestions",
@@ -27,6 +29,7 @@ const features = [
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
     ),
+    path: "/recipe-suggestions"
   },
   {
     title: "Food Donation Hub",
@@ -39,6 +42,7 @@ const features = [
         <path d="M3 18h18"></path>
       </svg>
     ),
+    path: "/food-donation"
   },
   {
     title: "Meal Planning",
@@ -52,6 +56,7 @@ const features = [
         <line x1="3" y1="10" x2="21" y2="10"></line>
       </svg>
     ),
+    path: "/meal-planning"
   },
   {
     title: "Community Forum",
@@ -62,6 +67,7 @@ const features = [
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
       </svg>
     ),
+    path: "/community-forum"
   },
   {
     title: "Business Solutions",
@@ -73,6 +79,7 @@ const features = [
         <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
       </svg>
     ),
+    path: "/business-solutions"
   },
 ];
 
@@ -97,25 +104,28 @@ const Features = () => {
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <div
+            <Link
               key={index}
-              className="feature-card opacity-0 animate-fade-in"
+              to={feature.path}
+              className="feature-card opacity-0 animate-fade-in block"
               style={{ animationDelay: `${300 + index * 100}ms` }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div
-                className={`w-12 h-12 mb-5 flex items-center justify-center rounded-full transition-all duration-300 ${
-                  hoveredIndex === index
-                    ? "bg-sage-600 text-white"
-                    : "bg-sage-100 text-sage-600"
-                }`}
-              >
-                {feature.icon}
+              <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 h-full">
+                <div
+                  className={`w-12 h-12 mb-5 flex items-center justify-center rounded-full transition-all duration-300 ${
+                    hoveredIndex === index
+                      ? "bg-sage-600 text-white"
+                      : "bg-sage-100 text-sage-600"
+                  }`}
+                >
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

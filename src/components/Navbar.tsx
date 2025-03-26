@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -30,12 +31,12 @@ const Navbar = () => {
       }`}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="text-xl font-semibold text-sage-800 flex items-center"
         >
           <span className="text-sage-600 mr-1">Food</span>Wise
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
@@ -48,9 +49,12 @@ const Navbar = () => {
           <a href="#cta" className="text-sm font-medium link-hover">
             Join Us
           </a>
-          <button className="bg-sage-600 hover:bg-sage-700 text-white px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 transform hover:scale-105">
-            Get Started
-          </button>
+          <Link to="/login" className="text-sm font-medium flex items-center text-sage-600 hover:text-sage-800">
+            <LogIn className="h-4 w-4 mr-1" /> Login
+          </Link>
+          <Link to="/signup" className="bg-sage-600 hover:bg-sage-700 text-white px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 transform hover:scale-105 flex items-center">
+            <UserPlus className="h-4 w-4 mr-1" /> Sign Up
+          </Link>
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -91,9 +95,20 @@ const Navbar = () => {
             >
               Join Us
             </a>
-            <button className="bg-sage-600 hover:bg-sage-700 text-white px-5 py-2.5 rounded-full font-medium text-sm transition-all">
-              Get Started
-            </button>
+            <Link
+              to="/login"
+              className="text-sm font-medium py-2 flex items-center"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <LogIn className="h-4 w-4 mr-2" /> Login
+            </Link>
+            <Link
+              to="/signup"
+              className="bg-sage-600 hover:bg-sage-700 text-white px-5 py-2.5 rounded-full font-medium text-sm transition-all flex items-center w-fit"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <UserPlus className="h-4 w-4 mr-2" /> Sign Up
+            </Link>
           </div>
         </div>
       )}

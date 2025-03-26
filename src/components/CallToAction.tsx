@@ -1,4 +1,6 @@
 
+import { Link } from "react-router-dom";
+
 const CallToAction = () => {
   return (
     <section id="cta" className="py-20 relative overflow-hidden">
@@ -13,12 +15,12 @@ const CallToAction = () => {
               join thousands of others making a positive impact on the planet.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in animate-delay-200">
-              <button className="bg-white text-sage-800 font-semibold rounded-full px-8 py-3 transition-all duration-300 hover:bg-sage-50 hover:shadow-lg">
+              <Link to="/signup" className="bg-white text-sage-800 font-semibold rounded-full px-8 py-3 transition-all duration-300 hover:bg-sage-50 hover:shadow-lg inline-block">
                 Get Started — It's Free
-              </button>
-              <button className="border border-white/30 text-white font-semibold rounded-full px-8 py-3 transition-all duration-300 hover:bg-white/10">
-                Learn More
-              </button>
+              </Link>
+              <Link to="/login" className="border border-white/30 text-white font-semibold rounded-full px-8 py-3 transition-all duration-300 hover:bg-white/10 inline-block">
+                Login
+              </Link>
             </div>
           </div>
         </div>

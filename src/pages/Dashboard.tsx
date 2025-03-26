@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
 
-  const handleLogout = async () => {
-    await signOut();
+  const handleLogout = () => {
+    toast({
+      title: "Logged out successfully",
+      description: "You have been logged out of your account"
+    });
     navigate("/");
   };
 
@@ -24,7 +25,6 @@ const Dashboard = () => {
             <span className="text-sage-600 mr-1">Food</span>Wise
           </Link>
           <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600">Hello, {user?.user_metadata?.full_name || 'User'}</span>
             <Button variant="ghost" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" /> Log out
             </Button>
@@ -34,7 +34,7 @@ const Dashboard = () => {
 
       <main className="container mx-auto px-6 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome back, {user?.user_metadata?.full_name || 'User'}!</h1>
+          <h1 className="text-3xl font-bold mb-2">Welcome back!</h1>
           <p className="text-gray-600">Manage your food inventory and reduce waste</p>
         </div>
 

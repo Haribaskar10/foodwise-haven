@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,29 +13,51 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { signUp, isLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Passwords don't match",
-        description: "Please make sure your passwords match."
-      });
-      return;
-    }
+    setIsLoading(true);
 
     try {
-      await signUp(email, password, name);
-      navigate("/dashboard");
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        toast({
+          variant: "destructive",
+          title: "Passwords don't match",
+          description: "Please make sure your passwords match."
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Simulate authentication
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // For demo, just check if fields are not empty
+      if (name && email && password) {
+        toast({
+          title: "Account created successfully",
+          description: "Welcome to FoodWise!"
+        });
+        navigate("/dashboard");
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Signup failed",
+          description: "Please fill in all fields"
+        });
+      }
     } catch (error) {
-      // Error is already handled in the Auth context
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Signup failed",
+        description: "Something went wrong. Please try again."
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,10 +140,10 @@ const Signup = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-4 mt-4">
-            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social signup will be available soon!" })}>
+            <Button variant="outline" type="button" disabled={isLoading}>
               Google
             </Button>
-            <Button variant="outline" type="button" disabled={isLoading} onClick={() => toast({ title: "Coming Soon", description: "Social signup will be available soon!" })}>
+            <Button variant="outline" type="button" disabled={isLoading}>
               Facebook
             </Button>
           </div>
